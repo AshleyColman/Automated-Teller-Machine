@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleUI", "ConsoleUI\ConsoleUI.csproj", "{5A875E53-57FE-4758-BA37-E0E9EF06A4B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleUI", "ConsoleUI\ConsoleUI.csproj", "{5A875E53-57FE-4758-BA37-E0E9EF06A4B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ATMLibrary", "ATMLibrary\ATMLibrary.csproj", "{2622C101-05CD-41E4-B02F-882F1006E7F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ATMLibrary", "ATMLibrary\ATMLibrary.csproj", "{2622C101-05CD-41E4-B02F-882F1006E7F5}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "SQLData", "SQLData\SQLData.sqlproj", "{EB41EBF7-F498-4D4D-8016-C00C40E52672}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,12 @@ Global
 		{2622C101-05CD-41E4-B02F-882F1006E7F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2622C101-05CD-41E4-B02F-882F1006E7F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2622C101-05CD-41E4-B02F-882F1006E7F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB41EBF7-F498-4D4D-8016-C00C40E52672}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB41EBF7-F498-4D4D-8016-C00C40E52672}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB41EBF7-F498-4D4D-8016-C00C40E52672}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{EB41EBF7-F498-4D4D-8016-C00C40E52672}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB41EBF7-F498-4D4D-8016-C00C40E52672}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB41EBF7-F498-4D4D-8016-C00C40E52672}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

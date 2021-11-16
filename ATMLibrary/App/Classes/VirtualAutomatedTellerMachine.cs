@@ -35,7 +35,7 @@ namespace ATMLibrary.Classes
         }
         public void Logout()
         {
-            messageService.LogoutMessage();
+            messageService?.LogoutMessage();
         }
     }
 }

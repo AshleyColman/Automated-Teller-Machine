@@ -7,7 +7,7 @@ namespace ATMLibrary.Classes
         void WelcomeMessage();
         void LoginMessage();
         void MenuMessage();
-        void OptionDoesNotExistMessage()
+        void OptionDoesNotExistMessage();
         void LogoutMessage();
         void ExitMessage();
     }

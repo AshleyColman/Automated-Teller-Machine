@@ -13,21 +13,21 @@ namespace ATMLibrary.Classes
         }
         public void Run()
         {
-            messageService.WelcomeMessage();
-            messageService.LoginMessage();
+            messageService?.WelcomeMessage();
+            messageService?.LoginMessage();
             Pause();
             LoopMenu();
-            messageService.ExitMessage();
+            messageService?.ExitMessage();
             Pause();
         }
         private void Pause() => Console.ReadLine();
         private void LoopMenu()
         {
-            int input = 0;
             do
             {
-                messageService.MenuMessage();
-                input = ReadInputInt();
+                messageService?.MenuMessage();
+                int input = ReadInputInt();
+                SelectMenuOption(input);
                
             } while (true != false);
         }
@@ -36,19 +36,19 @@ namespace ATMLibrary.Classes
             switch (_option)
             {
                 case 1:
-                    automatedTellerMachine.ViewBalance();
+                    automatedTellerMachine?.ViewBalance();
                     break;
                 case 2:
-                    automatedTellerMachine.Withdraw();
+                    automatedTellerMachine?.Withdraw();
                     break;
                 case 3:
-                    automatedTellerMachine.Deposit();
+                    automatedTellerMachine?.Deposit();
                     break;
                 case 4:
-                    automatedTellerMachine.Logout();
+                    automatedTellerMachine?.Logout();
                     break;
                 default:
-                    messageService.OptionDoesNotExistMessage();
+                    messageService?.OptionDoesNotExistMessage();
                     break;
             }
         }

@@ -8,7 +8,8 @@ namespace ATMLibrary.Classes
 {
     public sealed class Account : IAccount
     {
-        public string FirstName { get; set; }
+        public int Id { get; set; }
+        public string FirstName { get; set; } = String.Empty;
         public int Pin { get; set; }
         public decimal Balance { get; set; }
 

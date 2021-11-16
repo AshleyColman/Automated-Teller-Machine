@@ -15,5 +15,6 @@ namespace ATMLibrary.Classes
         }
         public void OptionDoesNotExistMessage() => Console.WriteLine("Option does not exist");
         public void ExitMessage() => Console.WriteLine("Thank you for using the application");
+        public void LogoutMessage() => throw new NotImplementedException();
     }
 }

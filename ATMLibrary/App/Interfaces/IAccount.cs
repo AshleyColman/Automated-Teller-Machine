@@ -2,9 +2,10 @@
 {
     public interface IAccount
     {
-        decimal Balance { get; set; }
+        public int Id { get; set; }
         string FirstName { get; set; }
         int Pin { get; set; }
+        decimal Balance { get; set; }
 
         void Deposit();
         void ViewBalance();
