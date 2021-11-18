@@ -2,11 +2,12 @@
 {
     public interface IAutomatedTellerMachine
     {
-        IAccount Account { get; init; }
-        void Withdraw();
+        IAccount Account { get; }
+        void Withdraw(decimal _amount);
         void Deposit();
         void ViewBalance();
-        void Login();
+        Task Login(int _pin);
         void Logout();
+        bool IsLoggedIn();
     }
 }

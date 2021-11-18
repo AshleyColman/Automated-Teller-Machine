@@ -2,13 +2,14 @@
 {
     public interface IAccount
     {
-        public int Id { get; set; }
-        string FirstName { get; set; }
-        int Pin { get; set; }
-        decimal Balance { get; set; }
+        int Id { get; }
+        string FirstName { get; }
+        string LastName { get; }
+        int Pin { get; }
+        decimal Balance { get; }
 
         void Deposit();
-        void ViewBalance();
-        void Withdraw();
+        void Withdraw(decimal _amount);
+        bool CheckIfCanWithdraw(decimal _amount);
     }
 }

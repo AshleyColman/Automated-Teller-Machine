@@ -1,12 +1,13 @@
 ﻿using ATMLibrary.Classes;
+using ATMLibrary.DataAccess;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 // Setup the application and run.
-Setup();
+await Setup();
 
-static void Setup()
+static async Task Setup()
 {
     IConfigurationBuilder builder = new ConfigurationBuilder();
 
@@ -18,6 +19,7 @@ static void Setup()
             services.AddTransient<IApplication, ConsoleApplication>();
             services.AddTransient<IMessageService, ConsoleMessageService>();
             services.AddTransient<IAutomatedTellerMachine, VirtualAutomatedTellerMachine>();
+            services.AddTransient<IDataAccess, SqlDataAccess>();
             services.AddTransient<IAccount, Account>();
         })
         .Build();
@@ -25,9 +27,10 @@ static void Setup()
     var applicationService = ActivatorUtilities.CreateInstance<ConsoleApplication>(host.Services);
     var messageService = ActivatorUtilities.CreateInstance<ConsoleMessageService>(host.Services);
     var automatedTellerMachineService = ActivatorUtilities.CreateInstance<VirtualAutomatedTellerMachine>(host.Services);
+    var dataAccessServices = ActivatorUtilities.CreateInstance<SqlDataAccess>(host.Services);
     var accountService = ActivatorUtilities.CreateInstance<Account>(host.Services);
 
-    applicationService.Run();
+    await applicationService.Run();
 }
 static void BuildConfig(IConfigurationBuilder _builder)
 {

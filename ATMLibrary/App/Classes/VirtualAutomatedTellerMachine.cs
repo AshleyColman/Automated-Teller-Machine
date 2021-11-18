@@ -1,41 +1,60 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace ATMLibrary.Classes
 {
+    using ATMLibrary.DataAccess;
+
     public sealed class VirtualAutomatedTellerMachine : IAutomatedTellerMachine
     {
         private readonly IMessageService messageService;
+        private readonly IDataAccess dataAccess;
         private decimal balance = 10000m;
-        public IAccount Account { get; init; }
+        public IAccount Account { get; private set; }
 
-        public VirtualAutomatedTellerMachine(IMessageService _messageService, IAccount _account)
+        public VirtualAutomatedTellerMachine(IMessageService _messageService, IDataAccess _dataAccess, IAccount _account)
         {
             messageService = _messageService;
+            dataAccess = _dataAccess;
             Account = _account;
         }
-        public void Deposit()
+        public void Deposit() => Account?.Deposit();
+        public void ViewBalance() => messageService?.ViewBalanceMessage(Account.Balance);
+        public void Withdraw(decimal _amount)
         {
-            throw new NotImplementedException();
+            bool canWithdrawFromATM = CheckIfCanWithdraw(_amount);
+            bool canWithdrawFromAccount = Account.CheckIfCanWithdraw(_amount);
+            if (canWithdrawFromATM == true && canWithdrawFromAccount == true)
+            {
+                Withdraw(_amount);
+                Account.Withdraw(_amount);
+                messageService?.WithdrawBalanceMessage(_amount);
+                ViewBalance();
+            }
+            else if (canWithdrawFromATM == false)
+            {
+                messageService?.AutomatedTellerMachineNotEnoughFundsMessage();
+            }
+            else if (canWithdrawFromAccount == false)
+            {
+                messageService?.AccountNotEnoughFundsMessage();
+            }
         }
-        public void ViewBalance()
+        private bool CheckIfCanWithdraw(decimal _amount) => ((balance - _amount) >= 0m);
+    public async Task Login(int _pin)
         {
-            throw new NotImplementedException();
+            messageService?.LoadingMessage();
+            Account = await dataAccess.GetAccountByPin(_pin);
+            if (Account == null)
+            {
+                messageService?.ErrorPinMessage();
+            }
+            else
+            {
+                messageService?.LoggedInMessage(Account.FirstName, Account.LastName);
+            }
         }
-        public void Withdraw()
-        {
-
-        }
-        public void Login()
-        {
-            // Prompt login.
-        }
-        public void Logout()
-        {
-            messageService?.LogoutMessage();
-        }
+        public void Logout() => messageService?.LogoutMessage(Account.FirstName, Account.LastName);
+        public bool IsLoggedIn() => (Account != null);
     }
 }
