@@ -20,7 +20,7 @@ namespace ATMLibrary.DataAccess
             Connect Timeout=60;
             Encrypt=False;
             TrustServerCertificate=False";
-        public async Task<IAccount> GetAccountByPin(int _pin)
+        public async Task<IAccount> GetAccountByPinAsync(int _pin)
         {
             try
             {
@@ -32,6 +32,21 @@ namespace ATMLibrary.DataAccess
             catch (Exception _ex)
             {
                 throw new Exception(_ex.Message, _ex.InnerException);
+            }
+        }
+        public async Task InsertNewAccountAsync(IAccount _account)
+        {
+            try
+            {
+                using IDbConnection connection = new SqlConnection(ConnectionString);
+                string procedure = "[AutomatedTellerMachineDB].[dbo].[Accounts_InsertNewAccount]";
+                var values = new { FirstName = _account.FirstName, LastName = _account.LastName, 
+                Pin = _account.Pin, Balance = _account.Balance };
+                await connection.ExecuteAsync(procedure, values, commandType: CommandType.StoredProcedure);
+            }
+            catch (Exception _ex)
+            {
+                Console.WriteLine(_ex.Message, _ex.InnerException);
             }
         }
     }

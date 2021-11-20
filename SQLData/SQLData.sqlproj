@@ -63,6 +63,7 @@
   <ItemGroup>
     <Build Include="Dbo\Tables\Accounts.sql" />
     <Build Include="Dbo\Stored Procedures\Accounts_SelectAllAccountData.sql" />
+    <Build Include="Dbo\Stored Procedures\Accounts_InsertNewAccount.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="AutomatedTellerMachineDB.publish.publish.xml" />

@@ -6,27 +6,104 @@
     {
         private readonly IMessageService messageService;
         private readonly IAutomatedTellerMachine automatedTellerMachine;
+        private readonly IDataAccess dataAccess;
         private const int MaxLoginAttempts = 3;
-        public ConsoleApplication(IMessageService _messageService, IAutomatedTellerMachine _automatedTellerMachine)
+        public ConsoleApplication(IMessageService _messageService, IAutomatedTellerMachine _automatedTellerMachine,
+            IDataAccess _dataAccess)
         {
-            messageService = _messageService;
-            automatedTellerMachine = _automatedTellerMachine;
+            this.messageService = _messageService;
+            this.automatedTellerMachine = _automatedTellerMachine;
+            this.dataAccess = _dataAccess;
         }
         public async Task Run()
         {
-            Config();
             Welcome();
+            await PromptConfig();
             await LoopReadPin();
             LoopMenu();
+            CloseApplication();
         }
-        private void Config() => Console.Title = "Automated Teller Machine C#10 .NET6 Dapper SQLServer - Ashley Colman 2021";
         private void Pause() => Console.ReadLine();
         private void Welcome() => messageService?.WelcomeMessage();
+        private async Task PromptConfig()
+        {
+            bool loopPromptConfig = true;
+            int input = 0;
+            do
+            {
+                messageService?.NewLineFormatting();
+                messageService?.PromptConfigMessage();
+                input = ReadInputInt();
+                CheckPromptConfigOption(input, ref loopPromptConfig);
+            } while (loopPromptConfig == true);
+            await LoopConfigMenuIfSelected(input);
+        }
+        private void CheckPromptConfigOption(int _input, ref bool _loopPromptConfig)
+        {
+            if (_input == 1 || _input == 2)
+            {
+                _loopPromptConfig = false;
+            }
+            else
+            {
+                messageService?.OptionDoesNotExistMessage();
+            }
+        }
+        private async Task LoopConfigMenuIfSelected(int _input)
+        {
+            if (_input == 1)
+            {
+                int input = int.MinValue;
+                do
+                {
+                    messageService?.NewLineFormatting();
+                    messageService?.ConfigMenuMessage();
+                    input = ReadInputInt();
+                    await SelectConfigMenuOption(input);
+                } while (input == int.MinValue);
+            }
+        }
+        private async Task SelectConfigMenuOption(int _input)
+        {
+            switch (_input)
+            {
+                case 1:
+                    messageService?.NewLineFormatting();
+                    messageService?.PromptConfigureBalanceMessage();
+                    decimal input = ReadInputDecimal();
+                    automatedTellerMachine?.ConfigureBalance(input);
+                    break;
+                case 2:
+                    await AddNewAccount();
+                    break;
+                case 3:
+                    break;
+                default:
+                    messageService?.OptionDoesNotExistMessage();
+                    break;
+            }
+        }
+        private async Task AddNewAccount()
+        {
+            Account account = new();
+            messageService?.NewLineFormatting();
+            messageService?.PromptFirstNameMessage();
+            account.FirstName = ReadInputString();
+            messageService?.PromptLastNameMessage();
+            account.LastName = ReadInputString();
+            messageService?.PromptAccountPinMessage();
+            account.Pin = ReadInputInt();
+            messageService?.PromptAccountBalanceMessage();
+            account.Balance = ReadInputDecimal();
+            await dataAccess.InsertNewAccountAsync(account);
+            messageService?.CreatedAccountMessage();
+        }
         private async Task LoopReadPin()
         {
             int loginAttempts = 0;
             do
             {
+                messageService?.NewLineFormatting();
                 messageService?.EnterPinMessage();
                 int input = ReadInputInt();
                 await automatedTellerMachine.Login(input);
@@ -35,14 +112,16 @@
         }
         private void LoopMenu()
         {
+            bool loopMenu = true;
             do
             {
+                messageService?.NewLineFormatting();
                 messageService?.MenuMessage();
                 int input = ReadInputInt();
-                SelectMenuOption(input);
-            } while (true != false);
+                SelectMenuOption(input, ref loopMenu);
+            } while (loopMenu == true);
         }
-        private void SelectMenuOption(int _option)
+        private void SelectMenuOption(int _option, ref bool _loopMenu)
         {
             switch (_option)
             {
@@ -50,28 +129,41 @@
                     automatedTellerMachine?.ViewBalance();
                     break;
                 case 2:
-                    LoopWithdrawMenu();
+                    DisplayWithdrawMenu();
                     break;
                 case 3:
-                    automatedTellerMachine?.Deposit();
                     break;
                 case 4:
                     automatedTellerMachine?.Logout();
-                    CloseApplication();
                     break;
                 default:
                     messageService?.OptionDoesNotExistMessage();
                     break;
             }
         }
-        private void LoopWithdrawMenu()
+        private void DisplayDepositMenu()
         {
+            bool loopMenu = true;
+            int input = 0;
             do
             {
-                messageService?.SelectWithdrawOptionMessage();
-                int input = ReadInputInt();
-                SelectWithdrawOption(input);
-            } while (true != false);
+                messageService?.NewLineFormatting();
+                messageService?.PromptWithdrawAmountMessage();
+                input = ReadInputInt();
+
+            } while (loopMenu == true);
+            automatedTellerMachine?.Deposit();
+        }
+        private void CheckDepositMenuOption(int _input, ref bool _loopMenu)
+        {
+            
+        }
+        private void DisplayWithdrawMenu()
+        {
+            messageService?.NewLineFormatting();
+            messageService?.SelectWithdrawOptionMessage();
+            int input = ReadInputInt();
+            SelectWithdrawOption(input);
         }
         private void SelectWithdrawOption(int _option)
         {
@@ -93,33 +185,47 @@
                 case 5:
                     withdrawAmount = 100m;
                     break;
+                case 6:
+                    break;
                 default:
                     messageService?.OptionDoesNotExistMessage();
                     break;
             }
-            automatedTellerMachine?.Withdraw(withdrawAmount);
+            if (withdrawAmount != 0m)
+            {
+                automatedTellerMachine?.Withdraw(withdrawAmount);
+            }
         }
-        private string ReadInput() => Console.ReadLine() ?? string.Empty;
+        private string ReadInputString() => Console.ReadLine() ?? string.Empty;
         private int ReadInputInt()
         {
             int input = 0;
-            bool success = int.TryParse(Console.ReadLine(), out input);
-            if (success == true) 
-            { 
+            int.TryParse(Console.ReadLine(), out input);
+            return input;
+        }
+        private decimal ReadInputDecimal()
+        {
+            decimal input = 0m;
+            bool success = decimal.TryParse(Console.ReadLine(), out input);
+            if (success == true)
+            {
                 return input;
             }
-            else 
-            { 
-                return -1;
+            else
+            {
+                return decimal.MinValue;
             }
         }
         private void CheckLoginAttempts(ref int _loginAttempts)
         {
-            _loginAttempts++;
-            if (_loginAttempts >= MaxLoginAttempts)
+            if (automatedTellerMachine?.IsLoggedIn() == false)
             {
-                messageService?.MaxLoginAttemptsMessage();
-                CloseApplication();
+                _loginAttempts++;
+                if (_loginAttempts >= MaxLoginAttempts)
+                {
+                    messageService?.MaxLoginAttemptsMessage();
+                    CloseApplication();
+                }
             }
         }
         private void CloseApplication()

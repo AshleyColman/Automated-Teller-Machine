@@ -8,14 +8,14 @@ namespace ATMLibrary.Classes
 {
     public sealed class Account : IAccount
     {
-        public int Id { get; private set; }
-        public string FirstName { get; private set; } = string.Empty;
-        public string LastName { get; private set; } = string.Empty;
-        public int Pin { get; private set; }
-        public decimal Balance { get; private set; }
+        public int Id { get; set; }
+        public string FirstName { get; set; } = string.Empty;
+        public string LastName { get; set; } = string.Empty;
+        public int Pin { get; set; }
+        public decimal Balance { get; set; }
 
-        public void Withdraw(decimal _amount) => Balance -= _amount;
-        public bool CheckIfCanWithdraw(decimal _amount) => (Balance - _amount) >= 0;
+        public void Withdraw(decimal _amount) => this.Balance -= _amount;
+        public bool CheckIfCanWithdraw(decimal _amount) => (this.Balance - _amount) >= 0;
         public void Deposit()
         {
 

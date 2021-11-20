@@ -10,6 +10,7 @@ namespace ATMLibrary.DataAccess
     public interface IDataAccess
     {
         const string ConnectionString = default;
-        Task<IAccount> GetAccountByPin(int _pin);
+        Task<IAccount> GetAccountByPinAsync(int _pin);
+        Task InsertNewAccountAsync(IAccount account);
     }
 }

@@ -9,5 +9,6 @@
         Task Login(int _pin);
         void Logout();
         bool IsLoggedIn();
+        void ConfigureBalance(decimal _amount);
     }
 }

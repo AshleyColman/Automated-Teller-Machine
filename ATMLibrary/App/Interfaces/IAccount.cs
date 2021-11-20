@@ -2,11 +2,11 @@
 {
     public interface IAccount
     {
-        int Id { get; }
-        string FirstName { get; }
-        string LastName { get; }
-        int Pin { get; }
-        decimal Balance { get; }
+        int Id { get; set; }
+        string FirstName { get; set; }
+        string LastName { get; set; }
+        int Pin { get; set; }
+        decimal Balance { get; set; }
 
         void Deposit();
         void Withdraw(decimal _amount);
