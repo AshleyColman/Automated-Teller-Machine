@@ -8,7 +8,7 @@
         int Pin { get; set; }
         decimal Balance { get; set; }
 
-        void Deposit();
+        void Deposit(decimal _amount);
         void Withdraw(decimal _amount);
         bool CheckIfCanWithdraw(decimal _amount);
     }

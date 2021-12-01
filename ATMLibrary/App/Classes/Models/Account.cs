@@ -16,9 +16,6 @@ namespace ATMLibrary.Classes
 
         public void Withdraw(decimal _amount) => this.Balance -= _amount;
         public bool CheckIfCanWithdraw(decimal _amount) => (this.Balance - _amount) >= 0;
-        public void Deposit()
-        {
-
-        }
+        public void Deposit(decimal _amount) => this.Balance += _amount;
     }
 }

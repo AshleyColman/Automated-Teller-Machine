@@ -2,7 +2,8 @@
 {
     public interface IDepositMenuMessages
     {
-        void DepositMessage();
+        void DepositMessage(decimal _amount);
         void PromptWithdrawAmountMessage();
+        void InputErrorMessage();
     }
 }

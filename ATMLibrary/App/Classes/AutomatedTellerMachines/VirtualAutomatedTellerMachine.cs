@@ -13,6 +13,7 @@ namespace ATMLibrary.Classes
         private readonly ILoginMenuMessages loginMenuMessages;
         private readonly IAccountMessages accountMessages;
         private readonly IWithdrawMenuMessages withdrawMenuMessages;
+        private readonly IDepositMenuMessages depositMenuMessages;
         private readonly IAutomatedTellerMachineMessages automatedTellerMachineMessages;
         private readonly IConfigureMessages configureMessages;
         private readonly IDataAccess dataAccess;
@@ -20,18 +21,26 @@ namespace ATMLibrary.Classes
         public IAccount Account { get; private set; }
 
         public VirtualAutomatedTellerMachine(IStandardMessages _standardMessages, ILoginMenuMessages _loginMenuMessages,
-            IAccountMessages _accountMessages, IWithdrawMenuMessages _withdrawMenuMessages, IAutomatedTellerMachineMessages _automatedTellerMachineMessages,
-            IConfigureMessages _configureMessages, IDataAccess _dataAccess)
+            IAccountMessages _accountMessages, IWithdrawMenuMessages _withdrawMenuMessages, IDepositMenuMessages _depositMenuMessages,
+            IAutomatedTellerMachineMessages _automatedTellerMachineMessages, IConfigureMessages _configureMessages, IDataAccess _dataAccess,
+            IAccount _account)
         {
             standardMessages = _standardMessages;
             loginMenuMessages = _loginMenuMessages;
             accountMessages = _accountMessages;
             withdrawMenuMessages = _withdrawMenuMessages;
+            depositMenuMessages = _depositMenuMessages;
             automatedTellerMachineMessages = _automatedTellerMachineMessages;
             configureMessages = _configureMessages;
             dataAccess = _dataAccess;
+            Account = _account;
         }
-        public void Deposit() => Account?.Deposit();
+        public void Deposit(decimal _amount) 
+        { 
+            Account?.Deposit(_amount);
+            depositMenuMessages?.DepositMessage(_amount);
+            ViewBalance();
+        }
         public void ViewBalance()
         {
             standardMessages?.NewLine();

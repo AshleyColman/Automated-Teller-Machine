@@ -64,6 +64,8 @@
     <Build Include="Dbo\Tables\Accounts.sql" />
     <Build Include="Dbo\Stored Procedures\Accounts_SelectAllAccountData.sql" />
     <Build Include="Dbo\Stored Procedures\Accounts_InsertNewAccount.sql" />
+    <Build Include="UpdateAccountBalance.sql" />
+    <Build Include="Accounts_UpdateAccountBalance.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="AutomatedTellerMachineDB.publish.publish.xml" />

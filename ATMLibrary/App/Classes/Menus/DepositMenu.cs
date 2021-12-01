@@ -34,11 +34,17 @@ namespace ATMLibrary.App.Classes
                 loop = CheckDepositMenuOption(input);
 
             } while (loop == true);
-            automatedTellerMachine?.Deposit();
+            automatedTellerMachine?.Deposit(input);
         }
         public bool CheckDepositMenuOption(int _input)
         {
-            return false;
+            if (_input > 0)
+            {
+                return false;
+            }
+
+            depositMenuMessages?.InputErrorMessage();
+            return true;
         }
     }
 }

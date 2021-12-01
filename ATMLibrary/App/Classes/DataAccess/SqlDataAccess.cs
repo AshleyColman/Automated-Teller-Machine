@@ -49,5 +49,22 @@ namespace ATMLibrary.DataAccess
                 Console.WriteLine(_ex.Message, _ex.InnerException);
             }
         }
+        public async Task UpdateAccountBalanceAsync(IAccount _account)
+        {
+            try
+            {
+                using IDbConnection connection = new SqlConnection(ConnectionString);
+                string procedure = "[AutomatedTellerMachineDB].[dbo].[Accounts_UpdateAccountBalance]";
+                var values = new
+                {
+                    Balance = _account.Balance
+                };
+                await connection.ExecuteAsync(procedure, values, commandType: CommandType.StoredProcedure);
+            }
+            catch (Exception _ex)
+            {
+                Console.WriteLine(_ex.Message, _ex.InnerException);
+            }
+        }
     }
 }

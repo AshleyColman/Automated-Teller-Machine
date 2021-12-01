@@ -4,7 +4,7 @@
     {
         IAccount Account { get; }
         void Withdraw(decimal _amount);
-        void Deposit();
+        void Deposit(decimal _amount);
         void ViewBalance();
         Task Login(int _pin);
         void Logout();
