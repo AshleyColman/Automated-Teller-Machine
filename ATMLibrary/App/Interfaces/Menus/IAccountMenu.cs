@@ -8,7 +8,7 @@ namespace ATMLibrary.App.Interfaces.Menus
 {
     public interface IAccountMenu
     {
-        void LoopMenu();
-        bool SelectMenuOption(int _option);
+        Task LoopMenu();
+        Task<bool> SelectMenuOption(int _option);
     }
 }

@@ -22,7 +22,7 @@ namespace ATMLibrary.App.Classes
             depositMenuMessages = _depositMenuMessages;
             automatedTellerMachine = _automatedTellerMachine;
         }
-        public void DisplayDepositMenu()
+        public async Task DisplayDepositMenu()
         {
             bool loop = true;
             int input = 0;
@@ -34,7 +34,7 @@ namespace ATMLibrary.App.Classes
                 loop = CheckDepositMenuOption(input);
 
             } while (loop == true);
-            automatedTellerMachine?.Deposit(input);
+            await automatedTellerMachine.Deposit(input);
         }
         public bool CheckDepositMenuOption(int _input)
         {

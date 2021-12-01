@@ -26,17 +26,17 @@ namespace ATMLibrary.App.Classes
             depositMenu = _depositMenu;
             withdrawMenu = _withdrawMenu;
         }
-        public void LoopMenu()
+        public async Task LoopMenu()
         {
             bool loop = true;
             do
             {
                 standardMessages?.NewLine();
                 accountMessages?.MenuMessage();
-                loop = SelectMenuOption(InputReader.ReadInputInt());
+                loop = await SelectMenuOption(InputReader.ReadInputInt());
             } while (loop == true);
         }
-        public bool SelectMenuOption(int _option)
+        public async Task<bool> SelectMenuOption(int _option)
         {
             switch (_option)
             {
@@ -44,10 +44,10 @@ namespace ATMLibrary.App.Classes
                     automatedTellerMachine?.ViewBalance();
                     return true;
                 case 2:
-                    withdrawMenu.DisplayWithdrawMenu();
+                    await withdrawMenu.DisplayWithdrawMenu();
                     return true;
                 case 3:
-                    depositMenu.DisplayDepositMenu();
+                    await depositMenu.DisplayDepositMenu();
                     return true;
                 case 4:
                     automatedTellerMachine?.Logout();

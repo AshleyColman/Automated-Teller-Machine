@@ -22,13 +22,13 @@ namespace ATMLibrary.App.Classes
             withdrawMenuMessages = _withdrawMenuMessages;
             automatedTellerMachine = _automatedTellerMachine;
         }
-        public void DisplayWithdrawMenu()
+        public async Task DisplayWithdrawMenu()
         {
             standardMessages?.NewLine();
             withdrawMenuMessages?.SelectWithdrawOptionMessage();
-            SelectWithdrawOption(InputReader.ReadInputInt());
+            await SelectWithdrawOption(InputReader.ReadInputInt());
         }
-        public void SelectWithdrawOption(int _option)
+        public async Task SelectWithdrawOption(int _option)
         {
             decimal withdrawAmount = 0m;
             switch (_option)
@@ -56,7 +56,7 @@ namespace ATMLibrary.App.Classes
             }
             if (withdrawAmount != 0m)
             {
-                automatedTellerMachine?.Withdraw(withdrawAmount);
+                await automatedTellerMachine.Withdraw(withdrawAmount);
             }
         }
     }

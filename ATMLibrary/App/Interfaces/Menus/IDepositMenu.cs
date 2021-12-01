@@ -8,7 +8,7 @@ namespace ATMLibrary.App.Interfaces.Menus
 {
     public interface IDepositMenu
     {
-        void DisplayDepositMenu();
+        Task DisplayDepositMenu();
         bool CheckDepositMenuOption(int _input);
     }
 }

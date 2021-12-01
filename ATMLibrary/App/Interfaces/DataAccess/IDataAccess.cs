@@ -12,5 +12,6 @@ namespace ATMLibrary.DataAccess
         const string ConnectionString = default;
         Task<IAccount> GetAccountByPinAsync(int _pin);
         Task InsertNewAccountAsync(IAccount account);
+        Task UpdateAccountBalanceAsync(IAccount _account);
     }
 }

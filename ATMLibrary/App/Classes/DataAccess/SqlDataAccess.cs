@@ -57,6 +57,7 @@ namespace ATMLibrary.DataAccess
                 string procedure = "[AutomatedTellerMachineDB].[dbo].[Accounts_UpdateAccountBalance]";
                 var values = new
                 {
+                    Id = _account.Id,
                     Balance = _account.Balance
                 };
                 await connection.ExecuteAsync(procedure, values, commandType: CommandType.StoredProcedure);

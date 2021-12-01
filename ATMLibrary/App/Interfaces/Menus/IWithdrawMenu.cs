@@ -8,7 +8,7 @@ namespace ATMLibrary.App.Interfaces.Menus
 {
     public interface IWithdrawMenu
     {
-        void DisplayWithdrawMenu();
-        void SelectWithdrawOption(int _option);
+        Task DisplayWithdrawMenu();
+        Task SelectWithdrawOption(int _option);
     }
 }

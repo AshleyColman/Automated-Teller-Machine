@@ -35,9 +35,10 @@ namespace ATMLibrary.Classes
             dataAccess = _dataAccess;
             Account = _account;
         }
-        public void Deposit(decimal _amount) 
-        { 
-            Account?.Deposit(_amount);
+        public async Task Deposit(decimal _amount) 
+        {
+            Account.Deposit(_amount);
+            await dataAccess.UpdateAccountBalanceAsync(Account);
             depositMenuMessages?.DepositMessage(_amount);
             ViewBalance();
         }
@@ -46,7 +47,7 @@ namespace ATMLibrary.Classes
             standardMessages?.NewLine();
             accountMessages?.ViewBalanceMessage(Account.Balance);
         }
-        public void Withdraw(decimal _amount)
+        public async Task Withdraw(decimal _amount)
         {
             bool canWithdrawFromATM = CheckIfCanWithdraw(_amount);
             bool canWithdrawFromAccount = Account.CheckIfCanWithdraw(_amount);
@@ -54,6 +55,7 @@ namespace ATMLibrary.Classes
             {
                 WithdrawFromATM(_amount);
                 Account.Withdraw(_amount);
+                await dataAccess.UpdateAccountBalanceAsync(Account);
                 withdrawMenuMessages?.WithdrawBalanceMessage(_amount);
                 ViewBalance();
             }

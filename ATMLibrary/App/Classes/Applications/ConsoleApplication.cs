@@ -24,7 +24,7 @@
             Welcome();
             await configureMenu.LoopConfigPrompt();
             await loginMenu.LoopReadPin();
-            accountMenu.LoopMenu();
+            await accountMenu.LoopMenu();
             Close();
         }
         private void Pause() => Console.ReadLine();
