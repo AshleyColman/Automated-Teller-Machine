@@ -3,5 +3,6 @@
     public interface IApplication
     {
         Task Run();
+        void Close();
     }
 }
